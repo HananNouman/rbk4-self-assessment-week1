@@ -9,8 +9,16 @@ var makeHashTable = function() {
       },
 
       insert: function(key, value) {
-        //your code is here
-        this._storage[hashFn(key, max)] = value;
+        var bucket=this._storage[hashFn(key, max)]||[];
+        for (var i=0;i<bucket.length;i++){
+          if(bucket[i][0]==key){
+            bucket[i][1]=value;
+            this._storage[hashFn(key, max)] = bucket;
+            return;
+          }
+        }
+        bucket.push([key,value]);
+        this._storage[hashFn(key, max)] = bucket;
     }
   }
 };
